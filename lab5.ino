@@ -6,21 +6,26 @@
 #include <Servo.h>.
 
 //pin locations
-const int trigPin = 10;
-const int echoPin = 11;
+const int outputPin = 10;
+const int ultrasound = 11;
+
+//variable declarations
 long duration;
 int distance;
 Servo myServo;
 
 void setup() {
-  pinMode(trigPin, OUTPUT);
-  pinMode(echoPin, INPUT);
+  //setting input and output pins
+  pinMode(outputPin, OUTPUT);
+  pinMode(ultrasound, INPUT);
+ 
+  //initialize program and servo
   Serial.begin(9600);
   myServo.attach(12);
 }
 
 void loop() {
-  //loop to print out distance while mofing in the inital direction
+  //loop to print out distance while moving in the initial direction
   for(int i = 15; i <= 165; ++i){  
     myServo.write(i);
     delay(30);
@@ -45,12 +50,12 @@ void loop() {
 
 //get distance to scanned object (if in range)
 int getDistance(){ 
-  digitalWrite(trigPin, LOW); 
+  digitalWrite(outputPin, LOW); 
   delayMicroseconds(2);
-  digitalWrite(trigPin, HIGH); 
+  digitalWrite(outputPin, HIGH); 
   delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
-  duration = pulseIn(echoPin, HIGH);
+  digitalWrite(outputPin, LOW);
+  duration = pulseIn(ultrasound, HIGH);
   distance= duration*0.034/2;
   return distance;
 }
